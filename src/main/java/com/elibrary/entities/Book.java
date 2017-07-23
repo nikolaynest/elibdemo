@@ -1,14 +1,31 @@
 package com.elibrary.entities;
 
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "books")
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "book_id")
+    private Long id;
     private String title;
     private String ISBN;
     private Genre genre;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Author> authors;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;

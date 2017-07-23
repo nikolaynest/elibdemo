@@ -5,5 +5,15 @@ package com.elibrary.entities;
  */
 public enum Genre {
 
-    ROMANCE, FANTASY, SCIFI, CRIME, SCIENCE
+    ROMANCE("Romance"), FANTASY("Fantasy"), SCIFI("SciFi"), CRIME("Crime"), SCIENCE("Science");
+
+    private String genre;
+
+    Genre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
 }
