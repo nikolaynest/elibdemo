@@ -5,7 +5,13 @@ package com.elibrary.entities;
  */
 public enum Genre {
 
-    ROMANCE("Romance"), FANTASY("Fantasy"), SCIFI("SciFi"), CRIME("Crime"), SCIENCE("Science");
+    ROMANCE("Romance"),
+    NOVEL("Novel"),
+    FANTASY("Fantasy"),
+    SCIFI("SciFi"),
+    CRIME("Crime"),
+    SCIENCE("Science"),
+    PROGRAMMING("Programming");
 
     private String genre;
 
