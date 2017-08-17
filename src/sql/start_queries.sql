@@ -15,7 +15,8 @@ describe <table_name>;
 -- Структура таблиц следующая: authors, books, rewards (награды автора), authors_books - many to many relationship
 -- Rules:
 -- add author: просто добавляем Автора в authors
--- add reward: должна быть запись в authors
+-- add reward: должна быть запись в authors; хотя не обязательно привязываться к автору.
+--             но у нас есть дата награды, поэтому запись награды делаю зависимым от автора.
 -- add book: должна быть запись в authors (книга не может быть без автора:)); добавляем запись и в books и в authors_books;
 -- delete author: каскадно удаляем из authors_books, rewards
 -- delete books: только если нет записи в authors_books
@@ -27,7 +28,7 @@ drop table if exists authors_books;
 drop table if exists rewards;
 drop table if exists books;
 
-create table authors (
+create table if not exists authors (
                 author_id bigint not null auto_increment,
                 birth_date datetime,
                 first_name varchar(255),
@@ -36,7 +37,7 @@ create table authors (
                 primary key (author_id)
             );
 
-create table rewards (
+create table if not exists rewards (
                 reward_id bigint not null auto_increment,
                 title varchar(255),
                 year integer not null,
@@ -46,7 +47,7 @@ create table rewards (
                 on delete cascade on update cascade
                 );
 
-create table books (
+create table if not exists books (
                 book_id bigint not null auto_increment,
                 isbn varchar(255),
                 genre varchar(50),
@@ -54,7 +55,7 @@ create table books (
                 primary key (book_id)
                 );
 
-create table authors_books (
+create table if not exists authors_books (
                 author_id bigint not null,
                 book_id bigint not null,
                 primary key (author_id, book_id),
@@ -78,3 +79,43 @@ create table authors_books (
 --                    references authors (author_id)
 --                    on delete cascade on update cascade
 
+Insert into authors(
+birth_date, first_name, last_name, sex) values
+('1941-05-24', 'Bob', 'Dylan', 'male'),
+('1897-10-15', 'Ilya', 'Ilf', 'male'),
+('1902-12-13', 'Yevgeny', 'Petrov', 'male'),
+('1961-03-13', 'Erich', 'Gamma', 'male'),
+('1955-07-10', 'Ralph', 'Johnson', 'male'),
+('1961-02-08', 'John', 'Vlissides', 'male'),
+('1870-10-22', 'Ivan', 'Bunin', 'male')
+;
+
+Insert into rewards(year, title, author_id) values
+(2016, 'Nobel Prize for Literature', 1),
+(1933, 'Nobel Prize for Literature', 2),
+(1903, 'Pushkin Prize', 2)
+;
+
+Insert into books(
+title, ISBN, genre) values
+('Title1', 'isbn1', 'genre1'),
+('Title2', 'isbn2', 'genre2'),
+('Title3', 'isbn3', 'genre3'),
+('The Twelve Chairs', 'isbn4', 'novel'),
+('The Little Golden Calf', 'isbn5', 'novel'),
+('Design Patterns', '0-201-63361-2', 'Programming'),
+('Title6', 'isbn6', 'genre6')
+;
+
+Insert into authors_books(
+author_id, book_id) values
+(1, 1),
+(1, 2),
+(2, 4),
+(3, 4),
+(2, 5),
+(3, 5),
+(4, 6),
+(5, 6),
+(6, 6)
+;
